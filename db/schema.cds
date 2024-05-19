@@ -1,7 +1,10 @@
 namespace Risks;
+
+using { BusinessPartnerA2X } from '../srv/external/BusinessPartnerA2X.cds';
+
 using { managed } from '@sap/cds/common';
 
-entity Risks: managed
+entity Risks : managed
 {
     key ID : UUID;
     title : String(100);
@@ -10,9 +13,10 @@ entity Risks: managed
     impact : Integer;
     criticality : Integer;
     mitigations : Association to one Mitigations;
+    supplier : Association to one BusinessPartnerA2X.A_BusinessPartner;
 }
 
-entity Mitigations: managed
+entity Mitigations : managed
 {
     key ID : UUID;
     description : String(100);
