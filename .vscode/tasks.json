@@ -35,7 +35,7 @@
         "install"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/"
+        "cwd": "${workspaceFolder}"
       }
     },
     {
@@ -54,7 +54,7 @@
         "npm-install"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/"
+        "cwd": "${workspaceFolder}"
       }
     },
     {
@@ -69,7 +69,73 @@
         "BuildMDK"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/"
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "install-app-router",
+      "type": "shell",
+      "command": "if [ ! -d node_modules ]; then npm i; fi",
+      "options": {
+        "cwd": "${workspaceFolder}/local-router"
+      }
+    },
+    {
+      "label": "start-app-router",
+      "type": "shell",
+      "command": "eval $(cat ../env/.envXsuaa)  npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/local-router"
+      },
+      "dependsOn": [
+        "install-app-router"
+      ],
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "severity": "info",
+          "pattern": [
+            {
+              "regexp": ".*Application router is listening on port.*",
+              "file": 0,
+              "location": 0,
+              "message": 0
+            }
+          ],
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".",
+            "endsPattern": ".*Application router is listening on port.*"
+          }
+        }
+      ]
+    },
+    {
+      "label": "stop-app-router",
+      "type": "shell",
+      "command": "kill $(ps aux | grep -vE 'grep|bash' | grep 'approuter' | awk '{print $2}')",
+      "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      }
+    },
+    {
+      "label": "PreLaunchTask for Run RiskManagement with Live Data",
+      "type": "process",
+      "command": "npx",
+      "args": [
+        "dev-cap-tools",
+        "gen-entrypoint"
+      ],
+      "dependsOn": [
+        "BuildMDK"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
       }
     }
   ]
